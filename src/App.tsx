@@ -40,6 +40,7 @@ function App() {
 			<button
 				onMouseDown={activateMeditate}
 				onMouseUp={desactivateMeditate}
+				onMouseLeave={desactivateMeditate}
 			>
 				{meditating ? `Meditating (${concentration}s)` : "Meditate"}
 			</button>
