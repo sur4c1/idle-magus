@@ -6,12 +6,12 @@
 //   By: yyyyyy <yyyyyy@42.fr>                      +#+  +:+       +#+        //
 //                                                +#+#+#+#+#+   +#+           //
 //   Created: 2025/01/31 07:48:18 by yyyyyy            #+#    #+#             //
-//   Updated: 2025/01/31 09:23:10 by yyyyyy           ###   ########.fr       //
+//   Updated: 2025/01/31 09:49:03 by yyyyyy           ###   ########.fr       //
 //                                                                            //
 // ************************************************************************** //
 
 import { useEffect, useState } from "react";
-import { useGame } from "./Game";
+import { GameState, useGame } from "./Game";
 
 function App() {
 	const [game, setGame] = useGame();
@@ -20,18 +20,18 @@ function App() {
 
 	const activateMeditate = () => {
 		setMeditating(true);
-		setGame((game) => ({ ...game, flow: 1 }));
+		setGame((game: GameState) => ({ ...game, flow: 1 }));
 	};
 	const desactivateMeditate = () => {
 		setMeditating(false);
 		setConcentration(0);
-		setGame((game) => ({ ...game, flow: 0 }));
+		setGame((game: GameState) => ({ ...game, flow: 0 }));
 	};
 
 	useEffect(() => {
 		const second = setInterval(() => {
 			if (meditating) {
-				setConcentration((old) => old + 1);
+				setConcentration((old: number) => old + 1);
 			}
 		}, 1000);
 		return () => clearInterval(second);
@@ -39,7 +39,7 @@ function App() {
 
 	useEffect(() => {
 		if (meditating) {
-			setGame((g) => (
+			setGame((game: GameState) => (
 				{
 					...game,
 					flow: Math.max(
