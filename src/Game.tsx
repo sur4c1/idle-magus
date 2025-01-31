@@ -6,7 +6,7 @@
 //   By: yyyyyy <yyyyyy@42.fr>                      +#+  +:+       +#+        //
 //                                                +#+#+#+#+#+   +#+           //
 //   Created: 2025/01/31 07:54:35 by yyyyyy            #+#    #+#             //
-//   Updated: 2025/01/31 09:58:53 by yyyyyy           ###   ########.fr       //
+//   Updated: 2025/01/31 10:17:52 by yyyyyy           ###   ########.fr       //
 //                                                                            //
 // ************************************************************************** //
 
@@ -60,9 +60,9 @@ export const GameContextProvider = (args: { children: any }) => {
 		const tick = setInterval(() => {
 			setGame((game) => ({
 				...game,
-				mana: game.mana + game.flow * 30 / 1000,
+				mana: game.mana + game.flow / 100,
 			}));
-		}, 1000 / 30);
+		}, 10);
 		return () => clearInterval(tick);
 	}, [game.flow]);
 
