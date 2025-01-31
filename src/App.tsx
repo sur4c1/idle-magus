@@ -1,19 +1,31 @@
+// ************************************************************************** //
+//                                                                            //
+//                                                        :::      ::::::::   //
+//   App.tsx                                            :+:      :+:    :+:   //
+//                                                    +:+ +:+         +:+     //
+//   By: yyyyyy <yyyyyy@42.fr>                      +#+  +:+       +#+        //
+//                                                +#+#+#+#+#+   +#+           //
+//   Created: 2025/01/31 07:48:18 by yyyyyy            #+#    #+#             //
+//   Updated: 2025/01/31 09:23:10 by yyyyyy           ###   ########.fr       //
+//                                                                            //
+// ************************************************************************** //
+
 import { useEffect, useState } from "react";
+import { useGame } from "./Game";
 
 function App() {
-	const [mana, setMana] = useState(0);
-	const [flow, setFlow] = useState(0);
+	const [game, setGame] = useGame();
 	const [meditating, setMeditating] = useState(false);
 	const [concentration, setConcentration] = useState(0);
 
 	const activateMeditate = () => {
 		setMeditating(true);
-		setFlow(1);
+		setGame((game) => ({ ...game, flow: 1 }));
 	};
 	const desactivateMeditate = () => {
 		setMeditating(false);
 		setConcentration(0);
-		setFlow(0);
+		setGame((game) => ({ ...game, flow: 0 }));
 	};
 
 	useEffect(() => {
@@ -21,22 +33,28 @@ function App() {
 			if (meditating) {
 				setConcentration((old) => old + 1);
 			}
-			setMana((old) => old + flow);
 		}, 1000);
 		return () => clearInterval(second);
-	}, [meditating, flow]);
+	}, [meditating]);
 
 	useEffect(() => {
 		if (meditating) {
-			setFlow(
-				Math.max(Math.ceil(Math.log1p(concentration) / Math.LN10), 1),
-			);
+			setGame((g) => (
+				{
+					...game,
+					flow: Math.max(
+						Math.ceil(Math.log1p(concentration) / Math.LN10),
+						1,
+					),
+				}
+			));
 		}
 	}, [concentration, meditating]);
 
 	return (
 		<>
-			<h1>{mana} 🜛 (+ {flow}/s)</h1>
+			<h1>{game.mana.toFixed(1)} 🜛</h1>
+			<h2>(+ {game.flow}/s)</h2>
 			<button
 				onMouseDown={activateMeditate}
 				onMouseUp={desactivateMeditate}
